@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB")
+}
+
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String   @unique
+  password String
+  role     String   // "Admin" | "Employer" | "Applicant"
+  jobs     Job[]    @relation("UserJobs")
+  apps     Application[]
+}
+
+model Job {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  createdBy   String
+  creator     User     @relation("UserJobs", fields: [createdBy], references: [id])
+  applications Application[]
+}
+
+model Application {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  jobId    String
+  userId   String
+  resume   String
+  status   String   @default("applied")
+  job      Job      @relation(fields: [jobId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+}
