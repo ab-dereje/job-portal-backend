@@ -35,7 +35,7 @@ export const getAdminData = async (req, res) => {
   try {
     // const { id } = req.params;
 
-    const admin = await prisma.user.findFirst({
+    const admin = await prisma.user.findMany({
     //   where: { id },
       select: {
         id: true,
@@ -45,9 +45,9 @@ export const getAdminData = async (req, res) => {
       },
     });
 
-    if (!admin || admin.role !== "Admin") {
-      return res.status(404).json({ message: "Admin not found" });
-    }
+    // if (!admin || admin.role !== "Admin") {
+    //   return res.status(404).json({ message: "Admin not found" });
+    // }
 
     res.json(admin);
   } catch (error) {
