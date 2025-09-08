@@ -30,6 +30,7 @@ model Job {
   title       String
   description String
   createdBy   String
+  createdAt DateTime @default(now())
   creator     User     @relation("UserJobs", fields: [createdBy], references: [id])
   applications Application[]
 }
@@ -39,6 +40,7 @@ model Application {
   jobId    String
   userId   String
   resume   String
+  createdAt DateTime @default(now())
   status   String   @default("applied")
   job      Job      @relation(fields: [jobId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
