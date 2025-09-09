@@ -30,7 +30,9 @@ model Job {
   title       String
   description String
   createdBy   String
-  createdAt DateTime @default(now())
+  status      String?  @default("opened")
+  salary      String? @default("negotiation")
+  createdAt DateTime? @default(now())
   creator     User     @relation("UserJobs", fields: [createdBy], references: [id])
   applications Application[]
 }

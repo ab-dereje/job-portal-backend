@@ -17,6 +17,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:sync": "prisma db push && prisma generate",
+    "prisma:reset": "prisma db push --force-reset && prisma generate"
   }
 }
