@@ -1,6 +1,6 @@
 // src/routes/job.routes.js
 import express from "express";
-import { createJob, getJobs, getJobsForEmployer, getJobById, updateJob, deleteJob, changeJobStatus } from "../controllers/jobsController.js";
+import { createJob, getJobs, getJobsForEmployer, getJobById, updateJob, deleteJob, changeJobStatus, getJobDetails } from "../controllers/jobsController.js";
 import { authenticateToken, authorizeRole } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -30,4 +30,8 @@ router.delete('/:id',authenticateToken,deleteJob)
 
 //change the status of a job for the employers
 router.put('/:id/status',authenticateToken,changeJobStatus)
+
+//get job details for the applicants
+router.get('/:id/details',authenticateToken,getJobDetails)
+
 export default router;

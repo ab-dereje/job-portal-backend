@@ -111,3 +111,19 @@ export const changeJobStatus = async (req,res)=>{
         res.status(500).json({ message: "Error updating job status", error: error.message });
     }
 }
+
+
+//get job details for the applicants
+export const getJobDetails = async (req,res)=>{
+    try {
+        const jobId = req.params.id;
+        const job = await prisma.job.findUnique({ where: { id: jobId, status: "opened" } });
+        if(!job){
+        return res.status(404).json({ message: "Job not found" });
+    }
+    res.status(201).json({ message: "Job details fetched successfully", job })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error fetching job details", error: error.message });
+    }
+}
