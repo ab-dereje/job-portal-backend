@@ -12,10 +12,17 @@ import jobRoutes from "./src/routes/job.routes.js";
 // Load environment variables
 dotenv.config();
 
+const corsOption = {
+  origin: '*', // Allow all origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow specific methods
+  allowedHeaders: 'Content-Type,Authorization', // Allow specific headers
+  credentials: true // Allow cookies to be sent with requests
+};
 const app = express();
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors(corsOption));
 app.use(express.json());
 
 app.use("/auth", authRoutes);

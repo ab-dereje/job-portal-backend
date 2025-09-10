@@ -128,7 +128,7 @@ export const registerApplicant = async (req, res) => {
     try {
       const { jobId } = req.params;
       const userId  = req.user.id; // make sure this is set from auth middleware
-      console.log(userId)
+      // console.log(userId)
       if (!userId) {
         return res.status(400).json({ message: "User not authenticated" });
       }
