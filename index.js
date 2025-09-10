@@ -7,6 +7,11 @@ import authRoutes from "./src/routes/auth.routes.js";
 import employeRoutes from "./src/routes/employer.routes.js";
 import applicantRoutes from "./src/routes/applicant.routes.js";
 import jobRoutes from "./src/routes/job.routes.js";
+import path from "path";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 // Load environment variables
@@ -29,6 +34,8 @@ app.use("/auth", authRoutes);
 app.use("/employer", employeRoutes)
 app.use('/applicant', applicantRoutes)
 app.use('/job', jobRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Server listening
 const PORT = process.env.PORT || 3000;
