@@ -173,3 +173,31 @@ export const registerApplicant = async (req, res) => {
     }
   };
   
+
+  export const listAppliedJob = async (req, res) => {
+    try {
+      // const { jobId } = req.params;
+      const userId  = req.user.id; 
+      // console.log(userId)
+      if (!userId) {
+        return res.status(400).json({ message: "User not authenticated" });
+      }
+      
+      
+
+      const AppliedList = await prisma.application.findMany({ where: { userId: userId } });
+      
+      if (!AppliedList) {
+        return res.status(404).json({ message: "there is no applied job" });
+      }
+
+      return res.status(201).json({ message: "list of applied job" },AppliedList);
+      
+      return res.status(201).json({ message: "list of applied job" },AppliedList);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Error submitting application", error: error.message });
+    }
+  };

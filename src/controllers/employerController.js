@@ -85,7 +85,7 @@ export const registerEmployer = async (req, res) => {
 
   export const applicantDetail = async (req, res) => {
     try {
-      console.log("adej")
+      
       const { id } = req.params;
   
       const applicantDetail = await prisma.application.findUnique({

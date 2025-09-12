@@ -1,6 +1,6 @@
 import express from "express";
 // import { registerAdmin, getAdminData } from "../controllers/authController.js";
-import {registerApplicant, deleteApplicant, applyForJob} from "../controllers/applicantController.js"
+import {registerApplicant, deleteApplicant, applyForJob, listAppliedJob} from "../controllers/applicantController.js"
 import { authenticateToken, authorizeRole } from "../middlewares/authMiddleware.js";
 import { uploadResume } from "../middlewares/uploadMiddleware.js";
 
@@ -17,5 +17,6 @@ router.delete('/delete-applicant/:id',authenticateToken,authorizeRole("Admin"), 
 
 //apply for a job
 router.post("/apply/:jobId", authenticateToken, uploadResume, applyForJob);
+router.get("/list-applied-jobs",authenticateToken,listAppliedJob)
 
 export default router;
