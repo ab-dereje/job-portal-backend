@@ -82,3 +82,44 @@ export const registerEmployer = async (req, res) => {
       res.status(500).json({ message: "Error fetching list of applicant", error: error.message });
     }
   }
+
+  export const applicantDetail = async (req, res) => {
+    try {
+      console.log("adej")
+      const { id } = req.params;
+  
+      const applicantDetail = await prisma.application.findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true,
+            },
+          },
+          job: {
+            select: {
+              id: true,
+              title: true,
+              description: true,
+            },
+          },
+        },
+      });
+  
+      if (!applicantDetail) {
+        return res.status(404).json({ message: "Applicant detail not found" });
+      }
+  
+      res.status(200).json(applicantDetail);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error fetching applicant detail", error: error.message });
+    }
+  };
+  

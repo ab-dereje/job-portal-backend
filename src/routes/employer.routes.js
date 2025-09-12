@@ -1,6 +1,6 @@
 import express from "express";
 // import { registerAdmin, getAdminData } from "../controllers/authController.js";
-import {registerEmployer, deleteEmployer, viewApplicant} from "../controllers/employerController.js"
+import {registerEmployer, deleteEmployer, viewApplicant, applicantDetail} from "../controllers/employerController.js"
 import { authenticateToken, authorizeRole } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -14,5 +14,7 @@ router.delete('/delete-employer/:id', deleteEmployer)
 // router.get("/admin", getAdminData);
 
 router.get('/list-applicant/:id',authenticateToken,authorizeRole("Employer"), viewApplicant)
+
+router.get('/applicant/:id', authenticateToken,authorizeRole("Employer"),applicantDetail)
 
 export default router;
