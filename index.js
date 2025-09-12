@@ -35,7 +35,8 @@ app.use("/employer", employeRoutes)
 app.use('/applicant', applicantRoutes)
 app.use('/job', jobRoutes);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Server listening
 const PORT = process.env.PORT || 3000;

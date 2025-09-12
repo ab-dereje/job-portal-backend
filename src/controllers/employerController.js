@@ -57,3 +57,28 @@ export const registerEmployer = async (req, res) => {
       res.status(500).json({ message: "Error registering employer", error: error.message });
     }
   };
+
+
+  export const viewApplicant = async (req,res)=>{
+    try{
+      
+      const { id } = req.params;
+      const userId = req.user.id;
+
+      
+
+      const applicantList = await prisma.application.findMany({
+        where:{
+          jobId:id,
+          userId:userId
+        }})
+
+      if(!applicantList){
+        res.status(404).json({ message: "there is no applicant"})
+      }
+
+      res.status(201).json({ message: "applicant list", applicantList})
+    }catch (error){
+      res.status(500).json({ message: "Error fetching list of applicant", error: error.message });
+    }
+  }
