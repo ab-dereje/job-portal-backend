@@ -125,10 +125,10 @@ export const registerEmployer = async (req, res) => {
   
   export const changeApplicantStatus = async (req, res) => {
     try {
-      const { applicantId, status } = req.body;
+      const { applicantionId, status } = req.body;
   
       const changeStatus = await prisma.application.update({
-        where: { id: applicantId },
+        where: { id: applicantionId },
         data: { status: status }
       });
   
