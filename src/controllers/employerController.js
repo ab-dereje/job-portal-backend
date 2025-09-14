@@ -123,3 +123,18 @@ export const registerEmployer = async (req, res) => {
     }
   };
   
+  export const changeApplicantStatus = async (req, res) => {
+    try {
+      const { applicantId, status } = req.body;
+  
+      const changeStatus = await prisma.application.update({
+        where: { id: applicantId },
+        data: { status: status }
+      });
+  
+      res.status(200).json({ message: "Status updated successfully", changeStatus });
+    } catch (error) {
+      res.status(500).json({ message: "Error updating status", error: error.message });
+    }
+  };
+  
