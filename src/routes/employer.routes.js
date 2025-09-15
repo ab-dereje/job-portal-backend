@@ -15,7 +15,7 @@ router.delete('/delete-employer/:id', deleteEmployer)
 
 router.get('/list-applicant/:id',authenticateToken,authorizeRole("Employer"), viewApplicant)
 
-router.get('/applicant/:id', authenticateToken,authorizeRole("Employer"),applicantDetail)
+router.get('/applicant/:applicantId', authenticateToken,authorizeRole("Employer"),applicantDetail)
 
 router.put('/change-applicant-status',authenticateToken,authorizeRole("Employer"),changeApplicantStatus)
 

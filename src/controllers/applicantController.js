@@ -35,8 +35,9 @@ export const registerApplicant = async (req, res) => {
       const { id } = req.params;
       console.log(id)
   
+      const deleteid = parseInt(applicantId, 10);
       // check if user already exists
-      const existingUser = await prisma.user.delete({ where: { id } });
+      const existingUser = await prisma.user.delete({ where: { id:deleteid } });
       if (!existingUser) {
         return res.status(400).json({ message: "User not deleted" });
       }
@@ -128,17 +129,21 @@ export const registerApplicant = async (req, res) => {
     try {
       const { jobId } = req.params;
       const userId  = req.user.id; // make sure this is set from auth middleware
+
+      
       // console.log(userId)
       if (!userId) {
         return res.status(400).json({ message: "User not authenticated" });
       }
+
+      const job_Id = parseInt(jobId, 10);
       
-      const job = await prisma.job.findUnique({ where: { id: jobId } });
+      const job = await prisma.job.findUnique({ where: { id: job_Id } });
       if (!job) {
         return res.status(404).json({ message: "Job not found" });
       }
 
-      const checkIfApplied = await prisma.application.findFirst({ where: { jobId, userId } });
+      const checkIfApplied = await prisma.application.findFirst({ where: {jobId:job_Id, userId } });
       if (checkIfApplied) {
         return res.status(400).json({ message: "You have already applied for this job" });
       }
@@ -154,7 +159,7 @@ export const registerApplicant = async (req, res) => {
           // resume: req.file.path,
           resume: `uploads/${relativePath}`, // multer stores the file path
           job: {
-            connect: { id: jobId },
+            connect: { id: job_Id },
           },
           user: {
             connect: { id: userId },
@@ -183,17 +188,18 @@ export const registerApplicant = async (req, res) => {
         return res.status(400).json({ message: "User not authenticated" });
       }
       
-      
+      console.log(userId)
 
       const AppliedList = await prisma.application.findMany({ where: { userId: userId } });
+      console.log('applied list are',AppliedList)
       
       if (!AppliedList) {
         return res.status(404).json({ message: "there is no applied job" });
       }
 
-      return res.status(201).json({ message: "list of applied job" },AppliedList);
+      res.status(201).json({message:"applieded list are",AppliedList});
       
-      return res.status(201).json({ message: "list of applied job" },AppliedList);
+      // return res.status(201).json({ message: "list of applied job" },AppliedList);
     } catch (error) {
       console.error(error);
       res

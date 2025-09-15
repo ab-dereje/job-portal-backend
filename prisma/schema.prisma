@@ -10,13 +10,13 @@ generator client {
 
 
 datasource db {
-  provider = "mongodb"
-  url      = env("MONGODB")
+  provider = "postgresql"
+  url      = env("POSTGRESS")
 }
 
 
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int      @id @default(autoincrement())
   name     String
   email    String   @unique
   password String
@@ -26,24 +26,24 @@ model User {
 }
 
 model Job {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  createdBy   String
-  status      String?  @default("opened")
-  salary      String? @default("negotiation")
-  createdAt DateTime? @default(now())
-  creator     User     @relation("UserJobs", fields: [createdBy], references: [id])
-  applications Application[]
+  id            Int           @id @default(autoincrement())
+  title         String
+  description   String
+  createdBy     Int
+  status        String?       @default("opened")
+  salary        String?       @default("negotiation")
+  createdAt     DateTime?     @default(now())
+  creator       User          @relation("UserJobs", fields: [createdBy], references: [id])
+  applications  Application[]
 }
 
 model Application {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  jobId    String
-  userId   String
-  resume   String
+  id        Int      @id @default(autoincrement())
+  jobId     Int
+  userId    Int
+  resume    String
   createdAt DateTime @default(now())
-  status   String   @default("applied")
-  job      Job      @relation(fields: [jobId], references: [id])
-  user     User     @relation(fields: [userId], references: [id])
+  status    String   @default("applied")
+  job       Job      @relation(fields: [jobId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }

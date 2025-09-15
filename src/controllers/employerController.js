@@ -34,9 +34,10 @@ export const registerEmployer = async (req, res) => {
     try {
       const { id } = req.params;
       console.log(id)
-  
+
+      const deleteid = parseInt(id, 10);
       // check if user already exists
-      const existingUser = await prisma.user.delete({ where: { id } });
+      const existingUser = await prisma.user.delete({ where: { id:deleteid } });
       if (!existingUser) {
         return res.status(400).json({ message: "User not deleted" });
       }
@@ -65,11 +66,11 @@ export const registerEmployer = async (req, res) => {
       const { id } = req.params;
       const userId = req.user.id;
 
-      
+      const jobid = parseInt(id, 10);
 
       const applicantList = await prisma.application.findMany({
         where:{
-          jobId:id,
+          jobId:jobid,
           userId:userId
         }})
 
@@ -86,7 +87,11 @@ export const registerEmployer = async (req, res) => {
   export const applicantDetail = async (req, res) => {
     try {
       
-      const { id } = req.params;
+      const { applicantId } = req.params;
+      
+
+      const id = parseInt(applicantId, 10);
+      console.log(id)
   
       const applicantDetail = await prisma.application.findUnique({
         where: {
@@ -126,6 +131,7 @@ export const registerEmployer = async (req, res) => {
   export const changeApplicantStatus = async (req, res) => {
     try {
       const { applicantionId, status } = req.body;
+      
   
       const changeStatus = await prisma.application.update({
         where: { id: applicantionId },

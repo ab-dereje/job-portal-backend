@@ -56,7 +56,10 @@ export const getJobsForEmployer = async (req,res)=>{
 //the following function is used to get a single job for the employers
 export const getJobById = async (req,res)=>{
     const jobId = req.params.id;
-    const job = await prisma.job.findUnique({ where: { id: jobId } });
+
+    const id = parseInt(jobId, 10);
+
+    const job = await prisma.job.findUnique({ where: { id: id } });
     if(!job){
         return res.status(404).json({ message: "Job not found" });
     }
@@ -68,8 +71,11 @@ export const updateJob = async (req,res)=>{
     try {
         const userId = req.user.id;
         const jobId = req.params.id;
+
+        const id = parseInt(jobId, 10);
+
         const { title, description, salary } = req.body;
-        const job = await prisma.job.update({ where: { id: jobId, createdBy: userId }, data: { title, description, salary } });
+        const job = await prisma.job.update({ where: { id: id, createdBy: userId }, data: { title, description, salary } });
         if(!job){
         return res.status(404).json({ message: "Job not found" });
         }
@@ -85,7 +91,10 @@ export const deleteJob = async (req,res)=>{
     try {
         const userId = req.user.id;
         const jobId = req.params.id;
-        const job = await prisma.job.delete({ where: { id: jobId, createdBy: userId } });
+
+        const id = parseInt(jobId, 10);
+
+        const job = await prisma.job.delete({ where: { id: id, createdBy: userId } });
         if(!job){
             return res.status(404).json({ message: "Job not found" });
         }
@@ -101,7 +110,8 @@ export const changeJobStatus = async (req,res)=>{
     try { 
         const jobId = req.params.id;
         const { status } = req.body;
-        const job = await prisma.job.update({ where: { id: jobId }, data: { status } });
+        const id = parseInt(jobId, 10);
+        const job = await prisma.job.update({ where: { id: id }, data: { status } });
         if(!job){
             return res.status(404).json({ message: "Job not found" });
         }
@@ -117,7 +127,11 @@ export const changeJobStatus = async (req,res)=>{
 export const getJobDetails = async (req,res)=>{
     try {
         const jobId = req.params.id;
-        const job = await prisma.job.findUnique({ where: { id: jobId, status: "opened" } });
+        const id = parseInt(jobId, 10);
+        const job = await prisma.job.findUnique({ where: { id: id, status: "opened" } });
+
+        
+
         if(!job){
         return res.status(404).json({ message: "Job not found" });
     }
